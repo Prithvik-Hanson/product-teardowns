@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Teardown: Swiggy</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FF5200;
+    --dark: #0f0f0f;
+    --mid: #1a1a1a;
+    --card: #222222;
+    --text: #f0ede8;
+    --muted: #888;
+    --accent: #FFB347;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    padding: 0 0 80px 0;
+  }
+
+  .hero {
+    border-bottom: 1px solid #2a2a2a;
+    padding: 60px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,82,0,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--orange);
+    border: 1px solid var(--orange);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  h1 span { color: var(--orange); }
+
+  .meta {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-top: 20px;
+  }
+
+  .meta strong { color: var(--text); font-weight: 500; }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  section {
+    padding: 52px 48px;
+    border-bottom: 1px solid #1e1e1e;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  p { margin-bottom: 16px; font-size: 15.5px; color: #ccc8c0; }
+  p:last-child { margin-bottom: 0; }
+
+  .highlight {
+    background: var(--card);
+    border-left: 3px solid var(--orange);
+    padding: 20px 24px;
+    border-radius: 0 6px 6px 0;
+    margin: 24px 0;
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .solutions {
+    display: grid;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .solution-card {
+    background: var(--card);
+    border: 1px solid #2e2e2e;
+    border-radius: 10px;
+    padding: 24px;
+    position: relative;
+  }
+
+  .solution-card:hover {
+    border-color: var(--orange);
+    transition: border-color 0.2s;
+  }
+
+  .solution-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--orange);
+    margin-bottom: 10px;
+  }
+
+  .solution-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .solution-card p {
+    font-size: 14.5px;
+    margin-bottom: 0;
+  }
+
+  .tradeoff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .tradeoff-item {
+    background: var(--card);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .tradeoff-item .label {
+    font-size: 10px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .pro .label { color: #4ade80; }
+  .con .label { color: #f87171; }
+
+  .tradeoff-item p { font-size: 13.5px; }
+
+  .users-affected {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .user-pill {
+    background: var(--card);
+    border: 1px solid #333;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  .impact-stat {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--orange);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .footnote {
+    padding: 40px 48px;
+    max-width: 760px;
+    margin: 0 auto;
+    font-size: 12px;
+    color: #555;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .hero, section { padding-left: 24px; padding-right: 24px; }
+    .tradeoff-grid { grid-template-columns: 1fr; }
+    .footnote { padding-left: 24px; padding-right: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="tag">Product Teardown</div>
+  <h1>Swiggy's Missing<br>Feature: <span>Multi-Restaurant</span><br>Orders</h1>
+  <div class="meta">
+    By <strong>Prithvik T Hanson</strong> &nbsp;·&nbsp; Grade 10 &nbsp;·&nbsp; Aspiring Product Manager &nbsp;·&nbsp; May 2026
+  </div>
+</div>
+
+<section>
+  <div class="section-label">01 — Overview</div>
+  <h2>What is Swiggy?</h2>
+  <p>Swiggy is India's leading food delivery platform, connecting millions of users to thousands of restaurants across the country. Its core job is simple: get food from a restaurant to a user's door as fast as possible.</p>
+  <p>But what happens when a user wants food from two different restaurants at the same time?</p>
+</section>
+
+<section>
+  <div class="section-label">02 — The Problem</div>
+  <h2>You can't order from two restaurants at once.</h2>
+  <div class="highlight">
+    Imagine a family ordering dinner. One person wants KFC. Another wants pizza from Domino's. On Swiggy today, you place two separate orders, pay two separate delivery fees, and wait for two separate deliveries that arrive at completely different times. The food gets cold. The experience is frustrating. Nobody is happy.
+  </div>
+  <p>This isn't a niche problem. It happens at every family dinner, every house party, every office lunch where people have different preferences.</p>
+
+  <p><strong style="color: var(--text);">Who does this affect?</strong></p>
+  <div class="users-affected">
+    <span class="user-pill">Families ordering dinner</span>
+    <span class="user-pill">House parties & gatherings</span>
+    <span class="user-pill">Office group orders</span>
+    <span class="user-pill">Couples with different cravings</span>
+    <span class="user-pill">Friend groups</span>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">03 — Why It Doesn't Exist Yet</div>
+  <h2>The logistics problem is real.</h2>
+  <p>This feature hasn't been built because it creates a genuine operational headache. A single delivery driver picking up from two restaurants has to travel to Restaurant A, wait for food, travel to Restaurant B, wait again, then travel to the user. That's a much longer delivery time, colder food, and a more expensive operation.</p>
+  <p>Swiggy's current model is optimized for speed — one restaurant, one driver, one delivery. Multi-restaurant orders break that optimization.</p>
+  <p>But the user problem is too real to ignore. So here's how to solve it without destroying the speed promise.</p>
+</section>
+
+<section>
+  <div class="section-label">04 — My Solution</div>
+  <h2>Two modes. User's choice.</h2>
+  <p>At checkout, when a user has items from multiple restaurants, Swiggy surfaces a simple choice:</p>
+
+  <div class="solutions">
+    <div class="solution-card">
+      <div class="solution-number">OPTION 01</div>
+      <h3>Single Driver Route — Cheaper, Slower</h3>
+      <p>One delivery driver picks up from both restaurants sequentially and delivers everything together. Lower cost — roughly a 10–15% service fee increase — but longer wait time. Best for users who care more about cost than speed.</p>
+    </div>
+    <div class="solution-card">
+      <div class="solution-number">OPTION 02</div>
+      <h3>Parallel Delivery — Faster, Premium</h3>
+      <p>Two drivers pick up from each restaurant simultaneously and deliver to the user at roughly the same time. Costs approximately twice the delivery fee, but food arrives hot and on time. Occasional Swiggy One coupons could offset this cost — incentivizing more users to subscribe to Swiggy One for perks like free parallel delivery.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">05 — Tradeoffs</div>
+  <h2>What this costs and risks.</h2>
+
+  <div class="tradeoff-grid">
+    <div class="tradeoff-item pro">
+      <div class="label">✓ Upside</div>
+      <p>Solves a genuine, frequent user pain point for groups and families.</p>
+    </div>
+    <div class="tradeoff-item con">
+      <div class="label">✗ Risk</div>
+      <p>Increases operational complexity for Swiggy's logistics engine significantly.</p>
+    </div>
+    <div class="tradeoff-item pro">
+      <div class="label">✓ Upside</div>
+      <p>Premium option creates a new monetization layer and a stronger reason to subscribe to Swiggy One.</p>
+    </div>
+    <div class="tradeoff-item con">
+      <div class="label">✗ Risk</div>
+      <p>Single driver route risks food quality complaints if timing between restaurants is poor.</p>
+    </div>
+    <div class="tradeoff-item pro">
+      <div class="label">✓ Upside</div>
+      <p>Differentiates Swiggy from Zomato — no food delivery platform currently offers this.</p>
+    </div>
+    <div class="tradeoff-item con">
+      <div class="label">✗ Risk</div>
+      <p>Driver incentive structure needs reworking to compensate for multi-stop routes fairly.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">06 — Existing Feature Gap</div>
+  <h2>Swiggy's Group Order feature doesn't solve this.</h2>
+  <p>Swiggy already has a "Group Order" feature — but it's essentially just a shared QR code that lets multiple people add items to the same basket from the same restaurant. It doesn't allow ordering from multiple restaurants.</p>
+  <p>The multi-restaurant order feature I've described would be a natural, powerful extension of Group Order — combining both into a unified "ordering together" experience.</p>
+</section>
+
+<section>
+  <div class="section-label">07 — Impact</div>
+  <h2>Why this matters.</h2>
+  <p>Food delivery at its core is a social activity. People order together. When a platform forces every person in a group to compromise on what they eat — or manage multiple separate orders — it creates friction in the exact moment that should feel effortless.</p>
+  <p>Multi-restaurant ordering doesn't just fix a feature gap. It makes Swiggy the platform that actually gets how people eat together.</p>
+</section>
+
+<div class="footnote">
+  This teardown was produced independently as part of a personal product management portfolio. I'm a 10th grade student teaching myself product thinking by analyzing apps I use daily.
+</div>
+
+</body>
+</html>
