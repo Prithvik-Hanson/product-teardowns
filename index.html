@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Teardowns — Prithvik T Hanson</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark: #0a0a0f;
+    --card: #1c1c26;
+    --text: #f0ede8;
+    --muted: #666;
+    --border: #1e1e2e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 0 0 80px 0;
+  }
+
+  .hero {
+    padding: 80px 48px 60px;
+    border-bottom: 1px solid var(--border);
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #888;
+    border: 1px solid #333;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .bio {
+    font-size: 15.5px;
+    color: #999;
+    max-width: 480px;
+    line-height: 1.7;
+  }
+
+  .bio strong { color: var(--text); font-weight: 500; }
+
+  .grid {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 48px 0;
+    display: grid;
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    text-decoration: none;
+    display: block;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    border-color: #444;
+    transform: translateY(-2px);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .card-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .card-desc {
+    font-size: 14.5px;
+    color: #999;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-date {
+    font-size: 12px;
+    color: #555;
+    letter-spacing: 0.05em;
+  }
+
+  .card-arrow {
+    font-size: 18px;
+    color: #444;
+  }
+
+  .card:hover .card-arrow { color: var(--text); }
+
+  .coming-soon {
+    background: transparent;
+    border: 1px dashed #222;
+    border-radius: 12px;
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: #444;
+  }
+
+  .coming-soon-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    border: 1px dashed #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .coming-soon p {
+    font-size: 13.5px;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .hero, .grid { padding-left: 24px; padding-right: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="tag">Portfolio</div>
+  <h1>Product Teardowns</h1>
+  <p class="bio">I'm <strong>Prithvik T Hanson</strong>, a 10th grade student teaching myself product thinking by breaking down apps I use every day. Aspiring PM. Commerce + IP stream.</p>
+</div>
+
+<div class="grid">
+
+  <a href="swiggy.html" class="card">
+    <div class="card-top">
+      <div class="card-icon" style="background:rgba(255,82,0,0.12)">🍔</div>
+      <div>
+        <div class="card-label">Teardown 01 · Swiggy</div>
+        <div class="card-title">The Multi-Restaurant Order Feature Swiggy is Missing</div>
+      </div>
+    </div>
+    <p class="card-desc">Why can't you order from KFC and Domino's in the same Swiggy order? I break down the logistics problem, two solutions, and how Swiggy could monetize it through Swiggy One.</p>
+    <div class="card-footer">
+      <span class="card-date">May 2026</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <a href="playstore.html" class="card">
+    <div class="card-top">
+      <div class="card-icon" style="background:rgba(66,133,244,0.12)">🎮</div>
+      <div>
+        <div class="card-label">Teardown 02 · Google Play Store</div>
+        <div class="card-title">Google Play Is Designed for the Wrong User</div>
+      </div>
+    </div>
+    <p class="card-desc">Google already built Play for Kids. So why does the main Play Store still feel like it's designed for children? A strategic problem disguised as a design problem.</p>
+    <div class="card-footer">
+      <span class="card-date">May 2026</span>
+      <span class="card-arrow">→</span>
+    </div>
+  </a>
+
+  <div class="coming-soon">
+    <div class="coming-soon-icon">+</div>
+    <p>More teardowns coming soon. One app at a time.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
