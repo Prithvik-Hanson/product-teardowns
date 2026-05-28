@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Teardown: Google Play Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #4285F4;
+    --green: #34A853;
+    --yellow: #FBBC05;
+    --red: #EA4335;
+    --dark: #0a0a0f;
+    --mid: #13131a;
+    --card: #1c1c26;
+    --text: #f0ede8;
+    --muted: #777;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    padding: 0 0 80px 0;
+  }
+
+  .hero {
+    border-bottom: 1px solid #1e1e2e;
+    padding: 60px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(66,133,244,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .google-dots {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  h1 .blue { color: var(--blue); }
+  h1 .green { color: var(--green); }
+  h1 .yellow { color: var(--yellow); }
+  h1 .red { color: var(--red); }
+
+  .meta {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-top: 20px;
+  }
+
+  .meta strong { color: var(--text); font-weight: 500; }
+
+  section {
+    padding: 52px 48px;
+    border-bottom: 1px solid #1a1a24;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  p { margin-bottom: 16px; font-size: 15.5px; color: #c8c4bc; }
+  p:last-child { margin-bottom: 0; }
+
+  .highlight {
+    background: var(--card);
+    border-left: 3px solid var(--blue);
+    padding: 20px 24px;
+    border-radius: 0 6px 6px 0;
+    margin: 24px 0;
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .col-card {
+    background: var(--card);
+    border: 1px solid #2a2a38;
+    border-radius: 10px;
+    padding: 24px;
+  }
+
+  .col-card:hover {
+    border-color: var(--blue);
+    transition: border-color 0.2s;
+  }
+
+  .col-card .col-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .col-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .col-card p { font-size: 14px; }
+
+  .before-after {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .before, .after {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 24px;
+  }
+
+  .before { border-top: 3px solid var(--red); }
+  .after { border-top: 3px solid var(--green); }
+
+  .before .ba-label { color: var(--red); }
+  .after .ba-label { color: var(--green); }
+
+  .ba-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .ba-item {
+    font-size: 13.5px;
+    color: #c8c4bc;
+    padding: 6px 0;
+    border-bottom: 1px solid #2a2a38;
+  }
+
+  .ba-item:last-child { border-bottom: none; }
+
+  .feature-cards {
+    display: grid;
+    gap: 14px;
+    margin-top: 24px;
+  }
+
+  .feature-card {
+    background: var(--card);
+    border: 1px solid #2a2a38;
+    border-radius: 10px;
+    padding: 22px 24px;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .feature-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .feature-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .feature-card p { font-size: 14px; margin-bottom: 0; }
+
+  .tradeoff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .tradeoff-item {
+    background: var(--card);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .tradeoff-item .label {
+    font-size: 10px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .pro .label { color: var(--green); }
+  .con .label { color: var(--red); }
+
+  .tradeoff-item p { font-size: 13.5px; }
+
+  .footnote {
+    padding: 40px 48px;
+    max-width: 760px;
+    margin: 0 auto;
+    font-size: 12px;
+    color: #444;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .hero, section { padding-left: 24px; padding-right: 24px; }
+    .two-col, .before-after, .tradeoff-grid { grid-template-columns: 1fr; }
+    .footnote { padding-left: 24px; padding-right: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="google-dots">
+    <div class="dot" style="background:#4285F4"></div>
+    <div class="dot" style="background:#EA4335"></div>
+    <div class="dot" style="background:#FBBC05"></div>
+    <div class="dot" style="background:#34A853"></div>
+  </div>
+  <div class="tag">Product Teardown</div>
+  <h1><span class="blue">G</span><span class="red">o</span><span class="yellow">o</span><span class="blue">g</span><span class="green">l</span><span class="red">e</span> Play Store<br>Is Designed for<br>the Wrong User</h1>
+  <div class="meta">
+    By <strong>Prithvik T Hanson</strong> &nbsp;&nbsp; Grade 10 &nbsp;&nbsp; Aspiring Product Manager &nbsp;&nbsp; May 2026
+  </div>
+</div>
+
+<section>
+  <div class="section-label">Overview</div>
+  <h2>What is the Play Store?</h2>
+  <p>Google Play Store is Android's primary app marketplace. Over 2.5 billion users open it to find, download, and manage apps. The job is simple: help people find the right app quickly.</p>
+  <p>It's not doing that well. Here's what I noticed.</p>
+</section>
+
+<section>
+  <div class="section-label">The Problem</div>
+  <h2>The Play Store is designed for children. But it already has a kids app.</h2>
+
+  <div class="highlight">
+    Google Play for Kids already exists. It's a separate app built specifically for children, with parental controls and a safe browsing experience. So why does the main Play Store still feel cluttered, loud, and game-heavy? Its audience is adults now. The product hasn't caught up.
+  </div>
+
+  <p>The homepage is dominated by games. Banners fight for your attention. Reviews are buried so far down you have to scroll to find them. It feels built to grab eyeballs, not to help a busy adult find a productivity app in 30 seconds.</p>
+
+  <div class="before-after">
+    <div class="before">
+      <span class="ba-label">Right now</span>
+      <div class="ba-item">Games pushed heavily on the homepage</div>
+      <div class="ba-item">Reviews buried below the fold</div>
+      <div class="ba-item">Cluttered, attention-grabbing layout</div>
+      <div class="ba-item">Recommendations feel generic</div>
+      <div class="ba-item">Kids and adults using the same UI</div>
+    </div>
+    <div class="after">
+      <span class="ba-label">What it should be</span>
+      <div class="ba-item">Games in their own section only</div>
+      <div class="ba-item">Reviews visible immediately</div>
+      <div class="ba-item">Clean, utility-first layout</div>
+      <div class="ba-item">Recommendations based on actual usage</div>
+      <div class="ba-item">Kids fully moved to Play for Kids</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Why It Exists</div>
+  <h2>Google built the solution but never committed to it.</h2>
+  <p>Play for Kids exists, but it's not pre-installed on Android devices, not marketed to parents, and not pushed as the default experience for young users. So kids keep ending up on the main Play Store, and Google keeps designing for them there.</p>
+  <p>This isn't really a design problem. It's a strategy problem. Google needs to fully commit to the separation, not just build the kids app and leave it sitting there.</p>
+</section>
+
+<section>
+  <div class="section-label">My Solution</div>
+  <h2>Three changes that would fix this.</h2>
+
+  <div class="feature-cards">
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(66,133,244,0.15)">📱</div>
+      <div>
+        <h3>Pre-install Play for Kids on every Android device</h3>
+        <p>Ship it alongside the main Play Store by default. Introduce it to parents during device setup. Once kids move there, the main app's audience becomes clearly adult and the design can finally reflect that.</p>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(52,168,83,0.15)">🎯</div>
+      <div>
+        <h3>Move games to their own section</h3>
+        <p>Games don't need to disappear. They need their own home that isn't the first thing every adult sees. The default homepage should show utility apps, productivity tools, and socials. Recommendations should come from your actual Google usage data, not generic trending lists.</p>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:rgba(251,188,5,0.15)">💳</div>
+      <div>
+        <h3>Family payment controls with biometric approval</h3>
+        <p>Parents set a monthly spending limit on their child's account. Any purchase needs a PIN or biometric approval from the parent's phone. No more surprise charges, no more kids using a saved card without permission. This alone would make Play for Kids the obvious choice for families.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Tradeoffs</div>
+  <h2>What Google would be giving up.</h2>
+
+  <div class="tradeoff-grid">
+    <div class="tradeoff-item pro">
+      <div class="label">Upside</div>
+      <p>A cleaner adult UI means people actually find what they're looking for faster. Better experience, more downloads.</p>
+    </div>
+    <div class="tradeoff-item con">
+      <div class="label">Risk</div>
+      <p>Moving games off the homepage could hurt impulse game downloads and dent short-term revenue.</p>
+    </div>
+    <div class="tradeoff-item pro">
+      <div class="label">Upside</div>
+      <p>Payment controls build parental trust and give families a real reason to put their kids on Play for Kids for good.</p>
+    </div>
+    <div class="tradeoff-item con">
+      <div class="label">Risk</div>
+      <p>Pre-installing Play for Kids adds to device storage. Small issue, but real on budget Android phones.</p>
+    </div>
+    <div class="tradeoff-item pro">
+      <div class="label">Upside</div>
+      <p>Personalised recommendations using Google's existing data is low engineering effort. The data is already there.</p>
+    </div>
+    <div class="tradeoff-item con">
+      <div class="label">Risk</div>
+      <p>Biometric approval adds a step to purchases. Some friction is good for kids, but it might reduce adult in-app purchases too.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Impact</div>
+  <h2>Why this matters.</h2>
+  <p>The Play Store is the front door to the entire Android ecosystem. When that door is cluttered and confusing, people trust it less, find apps less easily, and bounce faster.</p>
+  <p>A Play Store built for adults, with kids fully served somewhere better, doesn't just improve the UX. It makes Android feel more mature and more useful for the people actually spending money on it.</p>
+  <p>Google already built the solution. They just haven't followed through on it. That's the whole problem.</p>
+</section>
+
+<div class="footnote">
+  I'm Prithvik T Hanson, a 10th grade student building a product management portfolio by analyzing apps I use every day. This teardown is my own thinking, written independently.
+</div>
+
+</body>
+</html>

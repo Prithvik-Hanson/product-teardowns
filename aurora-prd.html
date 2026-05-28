@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora — Product Requirements Document</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --aurora1: #6366f1;
+    --aurora2: #8b5cf6;
+    --aurora3: #06b6d4;
+    --dark: #08080f;
+    --mid: #10101a;
+    --card: #161620;
+    --border: #1e1e2e;
+    --text: #f0ede8;
+    --muted: #666;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    padding: 0 0 80px 0;
+  }
+
+  .hero {
+    padding: 80px 48px 60px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, rgba(6,182,212,0.06) 40%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, var(--aurora1), var(--aurora3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border: 1px solid #2a2a3e;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+    -webkit-text-fill-color: unset;
+    color: var(--aurora1);
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, #67e8f9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .tagline {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--aurora1);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    color: #999;
+    max-width: 520px;
+    line-height: 1.8;
+    margin-bottom: 32px;
+  }
+
+  .meta {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .meta strong { color: #888; font-weight: 500; }
+
+  section {
+    padding: 52px 48px;
+    border-bottom: 1px solid var(--border);
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--aurora1);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  p { margin-bottom: 16px; font-size: 15.5px; color: #c8c4bc; }
+  p:last-child { margin-bottom: 0; }
+
+  .highlight {
+    background: var(--card);
+    border-left: 3px solid var(--aurora1);
+    padding: 20px 24px;
+    border-radius: 0 8px 8px 0;
+    margin: 24px 0;
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  .user-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .user-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+
+  .user-card .age {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--aurora3);
+    margin-bottom: 12px;
+  }
+
+  .user-card h3 { margin-bottom: 12px; }
+
+  .user-card p { font-size: 14px; }
+
+  .brief-mockup {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 24px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .brief-mockup::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--aurora1), var(--aurora2), var(--aurora3));
+  }
+
+  .brief-time {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .brief-greeting {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  .brief-item {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid #1e1e2e;
+    align-items: flex-start;
+  }
+
+  .brief-item:last-child { border-bottom: none; }
+
+  .brief-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .brief-item-text { font-size: 14px; color: #bbb; line-height: 1.5; }
+  .brief-item-text strong { color: var(--text); font-weight: 500; }
+
+  .integrations {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .integration-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+    color: #bbb;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .integration-pill .icon { font-size: 16px; }
+
+  .tech-stack {
+    display: grid;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .tech-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .tech-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--aurora1);
+    padding-top: 2px;
+  }
+
+  .tech-item p { font-size: 14px; margin-bottom: 0; }
+
+  .pricing-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .pricing-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+
+  .pricing-card.featured {
+    border-color: var(--aurora1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pricing-card.featured::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--aurora1), var(--aurora3));
+  }
+
+  .pricing-tier {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .pricing-amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .pricing-period { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+
+  .pricing-feature {
+    font-size: 13.5px;
+    color: #999;
+    padding: 6px 0;
+    border-bottom: 1px solid #1e1e2e;
+  }
+
+  .pricing-feature:last-child { border-bottom: none; }
+
+  .tradeoff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .tradeoff-item {
+    background: var(--card);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .tradeoff-item .label {
+    font-size: 10px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .pro .label { color: #4ade80; }
+  .con .label { color: #f87171; }
+  .tradeoff-item p { font-size: 13.5px; }
+
+  .footnote {
+    padding: 40px 48px;
+    max-width: 760px;
+    margin: 0 auto;
+    font-size: 12px;
+    color: #444;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .hero, section { padding-left: 24px; padding-right: 24px; }
+    .user-grid, .pricing-cards, .tradeoff-grid { grid-template-columns: 1fr; }
+    .integrations { grid-template-columns: 1fr 1fr; }
+    .tech-item { grid-template-columns: 1fr; gap: 6px; }
+    .footnote { padding-left: 24px; padding-right: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="tag">Original Product Concept</div>
+  <h1>Aurora</h1>
+  <div class="tagline">Optimized. Everyday.</div>
+  <p class="hero-desc">A personal daily life manager that connects every app in your life, studies your patterns overnight, and delivers one optimized plan every morning. No setup. No timetable. No thinking.</p>
+  <div class="meta">
+    By <strong>Prithvik T Hanson</strong> &nbsp;&nbsp; Grade 10 &nbsp;&nbsp; Aspiring Product Manager &nbsp;&nbsp; May 2026
+  </div>
+</div>
+
+<section>
+  <div class="section-label">The Problem</div>
+  <h2>Your life runs on 10 different apps. None of them talk to each other.</h2>
+  <p>You have a calendar for meetings, a fitness app for workouts, a sleep tracker, a water reminder, a to-do list, and a smart home. Each one works fine on its own. Together, they create noise.</p>
+  <div class="highlight">
+    Nobody wakes up and thinks: let me open 6 apps, cross-reference my sleep data with my workout plan, adjust my schedule based on how tired I am, and figure out the most optimized version of today. That would take 30 minutes. Most people just wing it. Aurora does it for you overnight.
+  </div>
+  <p>Apps like Google Assistant, Apple Focus, and Notion give you tools and templates. They still require you to think, configure, and maintain everything. Aurora doesn't. It just figures it out.</p>
+</section>
+
+<section>
+  <div class="section-label">The User</div>
+  <h2>Two very different people. One shared need.</h2>
+  <p>Aurora doesn't need to choose its user because the AI calibrates automatically to whoever you are. But there are two core groups:</p>
+
+  <div class="user-grid">
+    <div class="user-card">
+      <div class="age">Age 15 to 26</div>
+      <h3>The Chaotic Beginner</h3>
+      <p>Life is messy. Good intentions, no follow-through. Wants to build habits, go to the gym, drink more water, study better but keeps dropping the ball. Needs someone to just tell them what to do today.</p>
+    </div>
+    <div class="user-card">
+      <div class="age">Age 35 to 50</div>
+      <h3>The Optimizing Executive</h3>
+      <p>Already successful. Calendar is packed. Health is slipping. Wants to perform better without adding more complexity to their life. Needs something that runs quietly in the background and keeps them at their best.</p>
+    </div>
+  </div>
+
+  <p style="margin-top: 24px;">Same app. Same engine. Completely different Morning Brief. Aurora doesn't know everyone. It knows you.</p>
+</section>
+
+<section>
+  <div class="section-label">The Morning Brief</div>
+  <h2>One report every morning. Built fresh the night before.</h2>
+  <p>Aurora's AI studies the previous day's data across every connected app and puts together an optimized plan for the day ahead. You open Aurora once in the morning and follow the plan. That's the whole interaction.</p>
+
+  <div class="brief-mockup">
+    <div class="brief-time">Morning Brief · Thursday, 7:14 AM</div>
+    <div class="brief-greeting">Good morning. Here's your day.</div>
+    <div class="brief-item">
+      <div class="brief-icon" style="background:rgba(99,102,241,0.15)">😴</div>
+      <div class="brief-item-text"><strong>Recovery: 72%</strong> You slept 6.1 hours, slightly below your average. Going lighter on the workout today and moving bedtime to 10:30 PM.</div>
+    </div>
+    <div class="brief-item">
+      <div class="brief-icon" style="background:rgba(6,182,212,0.15)">💪</div>
+      <div class="brief-item-text"><strong>Workout: Upper Body</strong> Yesterday was leg day so upper body makes sense today. Scheduled for 5:00 PM. Your focus playlist starts automatically.</div>
+    </div>
+    <div class="brief-item">
+      <div class="brief-icon" style="background:rgba(139,92,246,0.15)">💧</div>
+      <div class="brief-item-text"><strong>Hydration</strong> You hit 60% of your water goal yesterday. Reminders going out every 90 minutes starting now.</div>
+    </div>
+    <div class="brief-item">
+      <div class="brief-icon" style="background:rgba(99,102,241,0.15)">📅</div>
+      <div class="brief-item-text"><strong>Your day</strong> Study block at 10:00 AM. Lunch at 1:00 PM. Gym at 5:00 PM. Wind down at 9:30 PM. Skincare reminder at 9:45 PM.</div>
+    </div>
+    <div class="brief-item">
+      <div class="brief-icon" style="background:rgba(6,182,212,0.15)">🏠</div>
+      <div class="brief-item-text"><strong>Smart home</strong> Focus lights on at 10:00 AM. Gym playlist queued for 5:00 PM. Sleep mode at 10:30 PM.</div>
+    </div>
+  </div>
+
+  <p>No fixed timetable. No manual scheduling. Every Morning Brief is built for that specific day based on how yesterday actually went, not how it was supposed to go.</p>
+</section>
+
+<section>
+  <div class="section-label">Integrations</div>
+  <h2>One app. Every part of your life.</h2>
+  <p>Aurora connects to the platforms that already sit at the centre of each category. One integration there covers hundreds of devices and apps automatically.</p>
+
+  <div class="integrations">
+    <div class="integration-pill"><span class="icon">📅</span> Google Calendar</div>
+    <div class="integration-pill"><span class="icon">⏰</span> Native Alarms</div>
+    <div class="integration-pill"><span class="icon">🏃</span> Google Fit</div>
+    <div class="integration-pill"><span class="icon">🍎</span> Apple Health</div>
+    <div class="integration-pill"><span class="icon">🏋️</span> Hevy</div>
+    <div class="integration-pill"><span class="icon">🎵</span> Spotify</div>
+    <div class="integration-pill"><span class="icon">🏠</span> Google Home</div>
+    <div class="integration-pill"><span class="icon">⌚</span> Wear OS</div>
+    <div class="integration-pill"><span class="icon">⌚</span> Apple Watch</div>
+  </div>
+
+  <p style="margin-top: 24px;">Google Fit and Apple Health already pull data from hundreds of fitness apps. By integrating just those two, Aurora connects to the entire fitness ecosystem without needing to build hundreds of individual integrations.</p>
+</section>
+
+<section>
+  <div class="section-label">The Aurora Engine</div>
+  <h2>AI that works while you sleep. Invisible by design.</h2>
+  <p>Most AI products want to have a conversation with you. Aurora's AI never speaks. It runs silently, studies your patterns every day, and gets smarter about you every night.</p>
+
+  <div class="tech-stack">
+    <div class="tech-item">
+      <div class="tech-label">AI Model</div>
+      <p>Open source Ollama-based model running on Aurora's servers. It studies daily patterns, spots trends, and builds tomorrow's plan. The longer you use it, the more accurate it gets.</p>
+    </div>
+    <div class="tech-item">
+      <div class="tech-label">Privacy</div>
+      <p>End-to-end encrypted. Everything is processed on Aurora's servers but encrypted so that even Aurora's own team cannot read your data. Only your device holds the key.</p>
+    </div>
+    <div class="tech-item">
+      <div class="tech-label">Personalization</div>
+      <p>No configuration needed. Aurora builds your profile from your behaviour automatically. The longer you use it, the more accurate the Morning Brief gets.</p>
+    </div>
+    <div class="tech-item">
+      <div class="tech-label">Output</div>
+      <p>One Morning Brief per day. No chat. No prompts. No settings. The AI's only job is to make tomorrow better than today.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Business Model</div>
+  <h2>Simple pricing. No compromises.</h2>
+  <p>Aurora is a full-feature or nothing product. A watered-down free tier defeats the whole point because Aurora only works when it has access to everything. So there is no free tier.</p>
+
+  <div class="pricing-cards">
+    <div class="pricing-card">
+      <div class="pricing-tier">Free Trial</div>
+      <div class="pricing-amount">7 Days</div>
+      <p class="pricing-period">No card required. No commitment.</p>
+      <div class="pricing-feature">Full access to every feature</div>
+      <div class="pricing-feature">All integrations unlocked</div>
+      <div class="pricing-feature">Complete Morning Brief daily</div>
+      <div class="pricing-feature">Aurora learns your patterns</div>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-tier">Aurora Premium</div>
+      <div class="pricing-amount">$10/mo</div>
+      <p class="pricing-period">Region-based pricing · ₹299/mo in India</p>
+      <div class="pricing-feature">Everything in the trial, forever</div>
+      <div class="pricing-feature">Unlimited pattern history</div>
+      <div class="pricing-feature">Priority AI processing</div>
+      <div class="pricing-feature">New integrations as they're released</div>
+    </div>
+  </div>
+
+  <p style="margin-top: 24px;">The 7-day trial is Aurora's strongest sales tool. By day 7, it knows your sleep patterns, your workout habits, your schedule, and your tendencies. Losing all of that feels like losing a version of yourself that took a week to build. Most people pay without thinking twice.</p>
+</section>
+
+<section>
+  <div class="section-label">Why This Wins</div>
+  <h2>Every other app gives you tools. Aurora gives you a plan.</h2>
+
+  <div class="tradeoff-grid">
+    <div class="tradeoff-item pro">
+      <div class="label">Differentiator</div>
+      <p>Cross-app intelligence that no single platform offers today. Your calendar, sleep, fitness, and home actually talk to each other.</p>
+    </div>
+    <div class="tradeoff-item pro">
+      <div class="label">Differentiator</div>
+      <p>Invisible AI. No chatbot, no prompts. Just a daily plan that quietly gets better every single day.</p>
+    </div>
+    <div class="tradeoff-item pro">
+      <div class="label">Differentiator</div>
+      <p>Zero setup. Aurora builds your profile from your behaviour. The lazy user never has to configure anything.</p>
+    </div>
+    <div class="tradeoff-item pro">
+      <div class="label">Differentiator</div>
+      <p>Optimized for today specifically, not a fixed routine. Every Morning Brief is built fresh based on how yesterday actually went.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Risks</div>
+  <h2>What could go wrong.</h2>
+
+  <div class="tradeoff-grid">
+    <div class="tradeoff-item con">
+      <div class="label">Risk</div>
+      <p>Aurora depends heavily on third-party APIs. If Google or Spotify changes something, parts of the product break. Constant maintenance required.</p>
+    </div>
+    <div class="tradeoff-item con">
+      <div class="label">Risk</div>
+      <p>No free tier means a higher barrier to get started. Word of mouth and a genuinely impressive trial experience are everything.</p>
+    </div>
+    <div class="tradeoff-item con">
+      <div class="label">Risk</div>
+      <p>Some users will be uncomfortable with one app having access to their entire life, even with end-to-end encryption. Trust has to be earned.</p>
+    </div>
+    <div class="tradeoff-item con">
+      <div class="label">Risk</div>
+      <p>The Morning Brief is weak for the first few days before Aurora has enough data to personalise properly. First impressions matter.</p>
+    </div>
+  </div>
+</section>
+
+<div class="footnote">
+  I'm Prithvik T Hanson, a 10th grade student building a product management portfolio. Aurora is an original product concept I developed independently. This PRD is my own thinking on what a genuinely useful AI-powered life manager could look like, built for the person who just wants their life to work.
+</div>
+
+</body>
+</html>
